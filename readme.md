@@ -1,5 +1,7 @@
 # javascript-search-input
 
+Search for terms in objects and nested objects
+
 **Usage**
 
 ```javascript
@@ -40,5 +42,6 @@ const sampleData = [{
 const KEYS_TO_FILTERS = ['user.name', 'subject', 'dest.name'];
 const myFilter = createFilter(KEYS_TO_FILTERS)
 
-const filtered = sampleData.filter(myFilter('Oliveira')); // should return the object { ... user: { name: 'Junior Oliveira'} ... }
+const filtered = sampleData.filter(myFilter('Oliveira')); 
+// should return the object { ... user: { name: 'Junior Oliveira'} ... }
 ```
