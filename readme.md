@@ -2,6 +2,12 @@
 
 Search for terms in objects and nested objects
 
+**Install**
+
+```sh
+yarn add git://github.com/arojunior/javascript-search-input#0.1.0
+```
+
 **Usage**
 
 ```javascript
