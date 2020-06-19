@@ -45,3 +45,33 @@ const myFilter = createFilter(KEYS_TO_FILTERS)
 const filtered = sampleData.filter(myFilter('Oliveira')); 
 // should return the object { ... user: { name: 'Junior Oliveira'} ... }
 ```
+
+The library is framework agnostic, but if you wanna use with **React**, for example:
+
+```javascript
+const useFilter = ({ keys, data }) => {
+  const [inputText, setInputText] = useState('');
+  const myFilter = createFilter(keys);
+  const filtered = data.filter(myFilter(inputText));
+
+  return { inputText, setInputText, filtered };
+};
+
+const App = () => {
+  const { inputText, setInputText, filtered } = useFilter({ 
+    keys: ['user.name', 'subject', 'dest.name'],
+    data: sampleData,
+  });
+
+  return (
+    <div className="App">
+      <input 
+        type="text" 
+        value={inputText} 
+        onChange={event => setInputText(event.target.value)} 
+      />
+      {JSON.stringify(filtered)}
+    </div>
+  );
+};
+```
