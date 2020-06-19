@@ -74,39 +74,41 @@ export function searchStrings(strings, term, { caseSensitive, fuzzy, sortResults
   }
 }
 
-export function createFilter(term, keys, options = {}) {
-  return (item) => {
-    if (term === '') { return true }
+export function createFilter(keys) {
+  return function (term, options = {}) {
+    return (item) => {
+      if (term === '') { return true }
 
-    if (!options.caseSensitive) {
-      term = term.toLowerCase()
-    }
-
-    const terms = term.split(' ')
-
-    if (!keys) {
-      return terms.every(term => searchStrings([item], term, options))
-    }
-
-    if (typeof keys === 'string') {
-      keys = [keys]
-    }
-
-    return terms.every(term => {
-      // allow search in specific fields with the syntax `field:search`
-      let currentKeys
-      if (term.indexOf(':') !== -1) {
-        const searchedField = term.split(':')[0]
-        term = term.split(':')[1]
-        currentKeys = keys.filter(key => key.toLowerCase().indexOf(searchedField) > -1)
-      } else {
-        currentKeys = keys
+      if (!options.caseSensitive) {
+        term = term.toLowerCase()
       }
 
-      return currentKeys.some(key => {
-        const values = getValuesForKey(key, item)
-        return searchStrings(values, term, options)
+      const terms = term.split(' ')
+
+      if (!keys) {
+        return terms.every(term => searchStrings([item], term, options))
+      }
+
+      if (typeof keys === 'string') {
+        keys = [keys]
+      }
+
+      return terms.every(term => {
+        // allow search in specific fields with the syntax `field:search`
+        let currentKeys
+        if (term.indexOf(':') !== -1) {
+          const searchedField = term.split(':')[0]
+          term = term.split(':')[1]
+          currentKeys = keys.filter(key => key.toLowerCase().indexOf(searchedField) > -1)
+        } else {
+          currentKeys = keys
+        }
+
+        return currentKeys.some(key => {
+          const values = getValuesForKey(key, item)
+          return searchStrings(values, term, options)
+        })
       })
-    })
+    }
   }
 }
