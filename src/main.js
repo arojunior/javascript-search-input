@@ -1,3 +1,1 @@
-import myLibrary from './my-library'
-
-const myLib = new myLibrary('#root')
+export * from './javascript-search-input';
